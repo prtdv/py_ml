@@ -31,7 +31,7 @@ x=["monday","tuesday","wednesday","thursday"]
 plt.bar(x,bar, color=["r"])
 plt.show()"""
 
-#scatter
+"""#scatter
 x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6])
 y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86])
 
@@ -40,4 +40,10 @@ plt.xlabel("trials")
 plt.ylabel("hotness")
 plt.colorbar()
 plt.title("test")
-plt.show()
+plt.show()"""
+
+"""#histogram
+uni=numpy.random.normal(100,200,1000) #low,high,size
+nor=random.normal(100,0.5,10000) #mean,std,size.
+plt.hist(nor,100) #data, no of bars in histogram.
+plt.show()"""

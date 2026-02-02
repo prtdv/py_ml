@@ -22,8 +22,18 @@ print(a)
 """s=[12,34,5,7,9,0, -100,-101,-102,-103,-200,-105]
 sns.displot(s, kind="kde") #shows distribution of elements along the array."""
 
-#histogram
+"""#histogram
 uni=numpy.random.normal(100,200,1000) #low,high,size
 nor=random.normal(100,0.5,10000) #mean,std,size.
 plt.hist(nor,100) #data, no of bars in histogram.
+plt.show()"""
+
+#testing
+
+x=random.normal(5,2,1000)
+y=random.normal(100,10,1000)
+
+plt.scatter(x,y)
+plt.xlabel("x axis (maybe age of car)")
+plt.ylabel("y axis (maybe speed of car)")
 plt.show()
