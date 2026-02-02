@@ -14,6 +14,7 @@ plt.ylabel("period intensity")
 plt.grid(axis='y')
 plt.show()
 """
+
 """#pie
 pie=np.array([45,68,89,10])
 myLabels=np.array(["H","B","c","d"])

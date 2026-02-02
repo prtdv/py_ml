@@ -1,3 +1,4 @@
+import numpy
 from numpy import random 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -18,6 +19,11 @@ b=random.permutation(a) #same as shuffle but not inplace=True
 print(a)
 """
 
-s=[12,34,5,7,9,0, -100,-101,-102,-103,-200,-105]
-sns.displot(s, kind="kde") #shows distribution of elements along the array.
+"""s=[12,34,5,7,9,0, -100,-101,-102,-103,-200,-105]
+sns.displot(s, kind="kde") #shows distribution of elements along the array."""
+
+#histogram
+uni=numpy.random.normal(100,200,1000) #low,high,size
+nor=random.normal(100,0.5,10000) #mean,std,size.
+plt.hist(nor,100) #data, no of bars in histogram.
 plt.show()
