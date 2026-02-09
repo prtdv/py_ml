@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy import stats
+import sklearn
+from sklearn.metrics import r2_score
 
 #prereq (using random.normal and scatter)
 """x=np.random.normal(5,2,1000) #np.random.normal(mean,std,size)
@@ -38,9 +40,30 @@ plt.ylabel("speed")
 plt.grid()
 plt.show()"""
 
-#polynomial regression (ahhhh we curving polynomially now)
+"""#polynomial regression (ahhhh we curving polynomially now)
 x = [1,2,3,5,6,7,8,9,10,12,13,14,15,16,18,19,21,22]
 y = [100,90,80,60,60,55,60,65,70,70,75,76,78,79,90,99,99,100]
 
+#slope,intercept,r,p,stdErr=stats.linregress(x,y). here r=0.42, chopped for linregress, trying polyregress here.
+
+mymodel = np.poly1d(np.polyfit(x, y, 3)) #we took a 3rd degree as it bends twice and we kinda guessed it to be that on seeing the scatter plot.
+#np.polyfit(x, y, 3) here 3 is the degree of curve we're expecting. returns [a,b,c,d] coefficients array of that curve.
+#np.poly1d([coeff. array]) wraps those coefficient into a callable func f(x) = ax³ + bx² + cx + d. that's why later we did mymodel(input)
+##poly1d means polynomial in 1 dependent var. here it's x.
+# mymodel is same as mymodel([pointArray]) which returns y=ax**3 + bx**2 + cx + d for each point in array.
+
+#https://chatgpt.com/s/t_698a351bdf3c8191a72de24abbbe60a4, only this can save me.
+
+#check r2
+print(r2_score(y,mymodel(x))) #used to evaluate regression quality. range =[0,1], 1 is perfect fit, 0 is hell no.
+
+myline = np.linspace(x[0], x[-1], 100) #smooth x-values for plotting, as in it creates 100 evenly spaced x values
+
+#prediction test
+print("my predicted value at 25 is: ", mymodel(25))
+
 plt.scatter(x, y)
-plt.show()
+plt.plot(myline, mymodel(myline)) #mymodel(myline) returns y for each x in myline in 1 array.
+plt.grid()
+plt.show()"""
+
