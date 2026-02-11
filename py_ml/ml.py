@@ -67,3 +67,19 @@ plt.plot(myline, mymodel(myline)) #mymodel(myline) returns y for each x in mylin
 plt.grid()
 plt.show()"""
 
+#multiple regression.
+df = pd.read_csv("data.csv")
+
+X = df[['Weight', 'Volume']] #independent vars
+y = df['CO2'] #dependent var.
+
+ #model fitting = model learning and regression function extraction
+regr = sklearn.linear_model.LinearRegression()
+regr.fit(X, y)
+print(regr.coef_) #y=a.x + b, gets a and b.
+
+#prediction test
+predictedCO2 = regr.predict([[3300, 1300]]) #get predicted y for x's
+
+print(predictedCO2)
+
