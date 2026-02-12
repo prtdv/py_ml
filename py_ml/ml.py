@@ -56,7 +56,7 @@ mymodel = np.poly1d(np.polyfit(x, y, 3)) #we took a 3rd degree as it bends twice
 #https://chatgpt.com/s/t_698a351bdf3c8191a72de24abbbe60a4, only this can save me.
 
 #check r2
-print(r2_score(y,mymodel(x))) #used to evaluate regression quality. range =[0,1], 1 is perfect fit, 0 is hell no.
+print(r2_score(y,mymodel(x))) #used to evaluate regression quality. range =(-infinity,1], 1 is perfect fit, 0 is just mean, -ve means kill yourself
 
 myline = np.linspace(x[0], x[-1], 100) #smooth x-values for plotting, as in it creates 100 evenly spaced x values
 
@@ -110,3 +110,33 @@ scaledinput = scale.transform([[weight_kg, vol_cm3]])
 predictedCO2=myModel.predict(scaledinput) #regr.predict([[2300, 1.3]])  ❌ WRONG, it needs scaled inputs 
 print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)
 """
+
+#train/test
+#80% train, 20% test
+
+np.random.seed(2) #makes results reprocable
+
+x=np.random.normal(3,1,100)
+y=np.random.normal(150, 40, 100)/x
+
+trainx=x[:80]
+trainy=y[:80]
+
+testx=x[80:]
+testy=y[80:]
+
+myModel=np.poly1d(np.polyfit(trainx,trainy,4)) #possible overfitting
+
+#remember, r2 checks fitting of data with our regression curve.
+print("train r2: ",r2_score(trainy,myModel(trainx))) #train r2:  0.7988645544629797, OK.
+print("test r2: ",r2_score(testy,myModel(testx))) #test r2:  0.8086921460343581, good, similar. our model is OK for prediction.
+
+#predicted test
+print(myModel(5)) #predicted: 22.8, real: 24. 
+
+myLine=np.linspace(0,6,100) #smoothing x for myModel curve
+plt.scatter(trainx,trainy)
+plt.plot(myLine,myModel(myLine))
+plt.show()
+
+
