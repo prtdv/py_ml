@@ -67,7 +67,7 @@ plt.plot(myline, mymodel(myline)) #mymodel(myline) returns y for each x in mylin
 plt.grid()
 plt.show()"""
 
-#multiple regression.
+"""#multiple regression.
 df = pd.read_csv("data.csv")
 
 X = df[['Weight', 'Volume']] #independent vars
@@ -81,5 +81,31 @@ print(regr.coef_) #y=a.x + b, gets a and b.
 #prediction test
 predictedCO2 = regr.predict([[3300, 1300]]) #get predicted y for x's
 
-print(predictedCO2)
+print(predictedCO2)"""
+
+#feature scaling
+df=pd.read_csv("data.csv")
+df["Volume"]=df["Volume"]/1000 #now our fuel is cm3, 1 instead of 1000
+from sklearn.preprocessing import StandardScaler
+
+scale=StandardScaler()
+
+X=df[["Weight","Volume"]]
+y=df["CO2"]
+
+scaledX=scale.fit_transform(X) #.fit_transform is combination of .fit (learns mean and std of all inps) and .transform (does the transformation)
+print(scaledX)
+
+myModel=sklearn.linear_model.LinearRegression()
+myModel.fit(scaledX,y) #the model is trained on scaled features, not raw df
+#also now the model expects inputs in the form of [scaled_weight, scaled_volume] and not raw [2300, 1.3] in our df
+
+weight_kg=2300
+vol_cm3=1.3
+#to predict, we now need scaled inps to our model trained on scaled values.
+scaledinput = scale.transform([[weight_kg, vol_cm3]]) 
+#.transform only because we dont need to relearn scaling from one new sample.
+
+predictedCO2=myModel.predict(scaledinput) #regr.predict([[2300, 1.3]])  ❌ WRONG, it needs scaled inputs 
+print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)
 
