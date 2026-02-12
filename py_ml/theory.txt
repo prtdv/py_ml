@@ -1,0 +1,13 @@
+https://chatgpt.com/share/698c92ab-9334-8009-9ab8-4b1e89b0e9a4
+
+ML theory, must knows. 
+expand the chat as need.
+
+covers:
+gradient descent
+loss function
+overfitting vs underfitting
+regularization
+feature scaling
+train/test split and cross validation (k-fold)
+bias-variance tradeoff

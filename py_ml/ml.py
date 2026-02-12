@@ -1,5 +1,6 @@
 #check out np.mean np.median and stats.mode, easy. also, checkout, np.percentile(arr,%ile) #returns the arr value at that %ile
 #check out np.random.normal(mean,std,size) distribution and plt.hist(arr,no.of.bars). also you alr know plt.scatter(x,y)
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -73,7 +74,7 @@ df = pd.read_csv("data.csv")
 X = df[['Weight', 'Volume']] #independent vars
 y = df['CO2'] #dependent var.
 
- #model fitting = model learning and regression function extraction
+#model fitting = model learning and regression function extraction
 regr = sklearn.linear_model.LinearRegression()
 regr.fit(X, y)
 print(regr.coef_) #y=a.x + b, gets a and b.
@@ -83,7 +84,7 @@ predictedCO2 = regr.predict([[3300, 1300]]) #get predicted y for x's
 
 print(predictedCO2)"""
 
-#feature scaling
+"""#feature scaling
 df=pd.read_csv("data.csv")
 df["Volume"]=df["Volume"]/1000 #now our fuel is cm3, 1 instead of 1000
 from sklearn.preprocessing import StandardScaler
@@ -108,4 +109,4 @@ scaledinput = scale.transform([[weight_kg, vol_cm3]])
 
 predictedCO2=myModel.predict(scaledinput) #regr.predict([[2300, 1.3]])  ❌ WRONG, it needs scaled inputs 
 print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)
-
+"""
