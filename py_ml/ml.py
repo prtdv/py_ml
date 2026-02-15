@@ -8,8 +8,8 @@ from scipy import stats
 import sklearn
 from sklearn.metrics import r2_score
 
-#prereq (using random.normal and scatter)
-"""x=np.random.normal(5,2,1000) #np.random.normal(mean,std,size)
+"""#prereq (using random.normal and scatter)
+x=np.random.normal(5,2,1000) #np.random.normal(mean,std,size)
 y=np.random.normal(100,10,1000)
 
 plt.scatter(x,y)
@@ -19,6 +19,7 @@ plt.show()
 """
 
 """#linear regression (relation between data points)
+
 x = [5,7,8,7,2,17,2,9,4,11,12,9,6]
 y = [99,86,87,88,111,86,103,87,94,78,77,85,86]
 
@@ -42,6 +43,7 @@ plt.grid()
 plt.show()"""
 
 """#polynomial regression (ahhhh we curving polynomially now)
+
 x = [1,2,3,5,6,7,8,9,10,12,13,14,15,16,18,19,21,22]
 y = [100,90,80,60,60,55,60,65,70,70,75,76,78,79,90,99,99,100]
 
@@ -69,6 +71,7 @@ plt.grid()
 plt.show()"""
 
 """#multiple regression.
+
 df = pd.read_csv("data.csv")
 
 X = df[['Weight', 'Volume']] #independent vars
@@ -85,10 +88,11 @@ predictedCO2 = regr.predict([[3300, 1300]]) #get predicted y for x's
 print(predictedCO2)"""
 
 """#feature scaling
+
 df=pd.read_csv("data.csv")
 df["Volume"]=df["Volume"]/1000 #now our fuel is cm3, 1 instead of 1000
 from sklearn.preprocessing import StandardScaler
-
+from sklearn.linear_model import LinearRegression
 scale=StandardScaler()
 
 X=df[["Weight","Volume"]]
@@ -97,7 +101,7 @@ y=df["CO2"]
 scaledX=scale.fit_transform(X) #.fit_transform is combination of .fit (learns mean and std of all inps) and .transform (does the transformation)
 print(scaledX)
 
-myModel=sklearn.linear_model.LinearRegression()
+myModel=LinearRegression()
 myModel.fit(scaledX,y) #the model is trained on scaled features, not raw df
 #also now the model expects inputs in the form of [scaled_weight, scaled_volume] and not raw [2300, 1.3] in our df
 
@@ -108,10 +112,10 @@ scaledinput = scale.transform([[weight_kg, vol_cm3]])
 #.transform only because we dont need to relearn scaling from one new sample.
 
 predictedCO2=myModel.predict(scaledinput) #regr.predict([[2300, 1.3]])  ❌ WRONG, it needs scaled inputs 
-print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)
-"""
+print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)"""
 
-#train/test
+
+"""#train/test
 #80% train, 20% test
 
 np.random.seed(2) #makes results reprocable
@@ -138,5 +142,43 @@ myLine=np.linspace(0,6,100) #smoothing x for myModel curve
 plt.scatter(trainx,trainy)
 plt.plot(myLine,myModel(myLine))
 plt.show()
+"""
 
+#decision tree
+
+from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
+
+df=pd.read_csv("data_classification.csv")
+#print(df['Nationality'].unique()) #returns unique values
+
+#in making a decision tree, we need all columns to be numberic vals
+
+d = {'UK': 0, 'USA': 1, 'N': 2}
+df['Nationality'] = df['Nationality'].map(d)
+    
+d = {'YES': 1, 'NO': 0}
+df['Go'] = df['Go'].map(d)
+
+
+#seperating features columns and target column
+
+features = ['Age', 'Experience', 'Rank', 'Nationality']
+
+X = df[features]
+y = df['Go']
+
+#decision tree
+
+dtree = DecisionTreeClassifier()
+dtree.fit(X, y)
+
+#prediction test
+#Example: Should I go see a show starring a 40 years old American comedian, with 10 years of experience, and a comedy ranking of 7?
+predictOutcome=dtree.predict([[40, 10, 7, 1]])
+#[1] means go, [0] means no go
+print(predictOutcome)
+
+tree.plot_tree(dtree, feature_names=features) #youll see that the tree is different each time, it's because dtrees are non deterministic by default.
+plt.show()
 
