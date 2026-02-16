@@ -144,7 +144,7 @@ plt.plot(myLine,myModel(myLine))
 plt.show()
 """
 
-#decision tree
+"""#decision tree
 
 from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
@@ -153,7 +153,6 @@ df=pd.read_csv("data_classification.csv")
 #print(df['Nationality'].unique()) #returns unique values
 
 #in making a decision tree, we need all columns to be numberic vals
-
 d = {'UK': 0, 'USA': 1, 'N': 2}
 df['Nationality'] = df['Nationality'].map(d)
     
@@ -162,7 +161,6 @@ df['Go'] = df['Go'].map(d)
 
 
 #seperating features columns and target column
-
 features = ['Age', 'Experience', 'Rank', 'Nationality']
 
 X = df[features]
@@ -181,4 +179,6 @@ print(predictOutcome)
 
 tree.plot_tree(dtree, feature_names=features) #youll see that the tree is different each time, it's because dtrees are non deterministic by default.
 plt.show()
+"""
 
+#confusion matrix (just do it from w3schools)
