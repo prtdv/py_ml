@@ -181,4 +181,30 @@ tree.plot_tree(dtree, feature_names=features) #youll see that the tree is differ
 plt.show()
 """
 
-#confusion matrix (just do it from w3schools)
+#confusion matrix (only for classification models)
+from sklearn import metrics
+
+actual = numpy.random.binomial(1,.9,size = 1000) 
+predicted = numpy.random.binomial(1,.9,size = 1000)
+#you already have actual in your dataset, loop through each feature of dataset into our model and get predicted array.
+
+confusion_matrix = metrics.confusion_matrix(actual, predicted)
+
+cm_display = metrics.ConfusionMatrixDisplay(confusion_matrix = confusion_matrix)
+
+cm_display.plot()
+plt.show()
+
+#The Confusion Matrix created has four different quadrants:
+#True Negative (Top-Left Quadrant)
+#False Positive (Top-Right Quadrant)
+#False Negative (Bottom-Left Quadrant)
+#True Positive (Bottom-Right Quadrant)
+ 
+#Evaluation metrics 
+Accuracy = metrics.accuracy_score(actual, predicted) #(True Positive + True Negative) / Total Predictions
+Precision = metrics.precision_score(actual, predicted) #True Positive / (True Positive + False Positive)
+Sensitivity_recall = metrics.recall_score(actual, predicted) #True Positive / (True Positive + False Negative)
+Specificity = metrics.recall_score(actual, predicted, pos_label=0) #True Negative / (True Negative + False Positive)
+F1_score = metrics.f1_score(actual, predicted) #2 * ((Precision * Sensitivity) / (Precision + Sensitivity))
+
