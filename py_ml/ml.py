@@ -254,7 +254,7 @@ log_odds = logistic_reg.coef_ #this is the weight (w). in logistic regression, l
 odds = np.exp(log_odds) #np.exp(log_odds)= e^(log_odds), so odds= p / (1-p)
 print(odds) # [4.03541657], it means if the size of a tumor increases by 1mm the odds of it being a cancerous tumor increases by 4x.
 
-#probability
+#probability, inside maths of logr.predict()
 def logit2prob(logistic_reg, X):
   log_odds = logistic_reg.coef_ * X + logistic_reg.intercept_
   odds = np.exp(log_odds)
