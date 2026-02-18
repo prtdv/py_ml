@@ -248,7 +248,9 @@ predicted=logistic_reg.predict(np.array([3.46]).reshape(-1,1)) #predict if tumor
 print(predicted) #We have predicted that a tumor with a size of 3.46mm will not be cancerous.
 
 #coefficients
-log_odds = logistic_reg.coef_ #this is the weight (w). in logistic regression, log_odds= log( p / (1-p) ) = wX + b
+log_odds = logistic_reg.coef_ #this is the weight (w). 
+#in logistic regression, log_odds= log( p / (1-p) ) = wX + b
+
 #it represents how strongly X influences y probability.
 
 odds = np.exp(log_odds) #np.exp(log_odds)= e^(log_odds), so odds= p / (1-p)
