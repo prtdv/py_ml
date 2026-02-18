@@ -181,11 +181,11 @@ tree.plot_tree(dtree, feature_names=features) #youll see that the tree is differ
 plt.show()
 """
 
-#confusion matrix (only for classification models)
+"""#confusion matrix (evaluating classification models)
 from sklearn import metrics
 
-actual = numpy.random.binomial(1,.9,size = 1000) 
-predicted = numpy.random.binomial(1,.9,size = 1000)
+actual = np.random.binomial(1,.9,size = 1000) 
+predicted = np.random.binomial(1,.9,size = 1000)
 #you already have actual in your dataset, loop through each feature of dataset into our model and get predicted array.
 
 confusion_matrix = metrics.confusion_matrix(actual, predicted)
@@ -208,3 +208,20 @@ Sensitivity_recall = metrics.recall_score(actual, predicted) #True Positive / (T
 Specificity = metrics.recall_score(actual, predicted, pos_label=0) #True Negative / (True Negative + False Positive)
 F1_score = metrics.f1_score(actual, predicted) #2 * ((Precision * Sensitivity) / (Precision + Sensitivity))
 
+print({"Accuracy":Accuracy,"Precision":Precision,"Sensitivity_recall":Sensitivity_recall,"Specificity":Specificity,"F1_score":F1_score})
+"""
+
+from sklearn.cluster import AgglomerativeClustering
+#Agglomerative hierarchical clustering is a bottom-up method that starts with each data point as its own cluster and repeatedly merges the closest clusters to form a tree of nested groups.
+
+x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
+y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+
+data=list(zip(x,y)) #returns a 2d array of format [(x,y)]
+print(data)
+
+hierarchial_cluster=AgglomerativeClustering(n_clusters=5, linkage='ward') #n_clusters define the no of clusters, ward linkage minimizes variance within clusters
+labels=hierarchial_cluster.fit_predict(data)
+
+plt.scatter(x,y,c=labels)
+plt.show()
