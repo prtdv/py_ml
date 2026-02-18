@@ -46,8 +46,11 @@ print('x base check', x.base) #returns the base array"""
 
 """ shape and reshape
 print(np2.shape)
-n2=np.reshape(4,1,-1)
+n2=np.reshape(4,1,-1) #-1 means it'll auto configure the value for you
 print(n2)
+
+# remember, in 3d reshape, it follows the format (no of array box, 2d_x, 2d_y), or (n_boxes, rows, columns)
+# n_boxes*row*column must be equal to the no of elements.
 
 n1=np2.reshape(-1)
 print(n1)"""

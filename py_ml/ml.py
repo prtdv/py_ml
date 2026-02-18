@@ -114,7 +114,6 @@ scaledinput = scale.transform([[weight_kg, vol_cm3]])
 predictedCO2=myModel.predict(scaledinput) #regr.predict([[2300, 1.3]])  ❌ WRONG, it needs scaled inputs 
 print("predicted CO2 at scaled weight",weight_kg,"and scaled volume",vol_cm3,"is: ",predictedCO2)"""
 
-
 """#train/test
 #80% train, 20% test
 
@@ -159,15 +158,13 @@ df['Nationality'] = df['Nationality'].map(d)
 d = {'YES': 1, 'NO': 0}
 df['Go'] = df['Go'].map(d)
 
-
 #seperating features columns and target column
 features = ['Age', 'Experience', 'Rank', 'Nationality']
 
 X = df[features]
 y = df['Go']
 
-#decision tree
-
+#dtree model
 dtree = DecisionTreeClassifier()
 dtree.fit(X, y)
 
@@ -211,6 +208,7 @@ F1_score = metrics.f1_score(actual, predicted) #2 * ((Precision * Sensitivity) /
 print({"Accuracy":Accuracy,"Precision":Precision,"Sensitivity_recall":Sensitivity_recall,"Specificity":Specificity,"F1_score":F1_score})
 """
 
+"""#hierarchial clustering
 from sklearn.cluster import AgglomerativeClustering
 #Agglomerative hierarchical clustering is a bottom-up method that starts with each data point as its own cluster and repeatedly merges the closest clusters to form a tree of nested groups.
 
@@ -224,4 +222,45 @@ hierarchial_cluster=AgglomerativeClustering(n_clusters=5, linkage='ward') #n_clu
 labels=hierarchial_cluster.fit_predict(data)
 
 plt.scatter(x,y,c=labels)
-plt.show()
+plt.show()"""
+
+#logistic regression (multinomial classification) #used sigmoid function
+from sklearn import linear_model
+
+#X represents the size of a tumor in centimeters.
+X = np.array([3.78, 2.44, 2.09, 0.14, 1.72, 1.65, 4.92, 4.37, 4.96, 4.52, 3.69, 5.88]).reshape(-1,1)
+#note: X has to be reshaped into a column from a row for the LogisticRegression() function to work.
+
+#y represents whether or not the tumor is cancerous (0 for "No", 1 for "Yes").
+y = np.array([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+
+#RESHAPE BASICS. -1 means auto configuring the value. here it's auto finding no of rows and the no of columns is 1.
+#in 3D reshape, it follows the format (no of 2d array boxes, 2d_row, 2d_column)
+
+logistic_reg=linear_model.LogisticRegression()
+logistic_reg.fit(X,y)
+
+#prediction test
+predicted=logistic_reg.predict(np.array([3.46]).reshape(-1,1)) #predict if tumor is cancerous where the size is 3.46mm:
+#predicted=logistic_reg.predict([[3.46]]) works too
+#in sklearn, the .predict() expects a 2D array mostly.
+
+print(predicted) #We have predicted that a tumor with a size of 3.46mm will not be cancerous.
+
+#coefficients
+log_odds = logistic_reg.coef_ #this is the weight (w). in logistic regression, log_odds= log( p / (1-p) ) = wX + b
+#it represents how strongly X influences y probability.
+
+odds = np.exp(log_odds) #np.exp(log_odds)= e^(log_odds), so odds= p / (1-p)
+print(odds) # [4.03541657], it means if the size of a tumor increases by 1mm the odds of it being a cancerous tumor increases by 4x.
+
+#probability
+def logit2prob(logistic_reg, X):
+  log_odds = logistic_reg.coef_ * X + logistic_reg.intercept_
+  odds = np.exp(log_odds)
+  probability = odds / (1 + odds)
+  return(probability)
+
+print(logit2prob(logistic_reg, X)) #prints the probabilities of each X being cancerous (y)
+
+
