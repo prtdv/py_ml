@@ -256,11 +256,12 @@ print(odds) # [4.03541657], it means if the size of a tumor increases by 1mm the
 
 #probability, inside maths of logr.predict()
 def logit2prob(logistic_reg, X):
-  log_odds = logistic_reg.coef_ * X + logistic_reg.intercept_
-  odds = np.exp(log_odds)
+  log_odds = logistic_reg.coef_ * X + logistic_reg.intercept_ #log_odds= log(p / (1-p))
+  odds = np.exp(log_odds) #removing log, odds= p / (1-p)
   probability = odds / (1 + odds)
   return(probability)
 
 print(logit2prob(logistic_reg, X)) #prints the probabilities of each X being cancerous (y)
+#our .predict returns 0 or 1, but this what's happening underneath, if >0.5, it's 1, if less, it's 0.
 
 
