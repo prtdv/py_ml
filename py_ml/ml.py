@@ -224,25 +224,29 @@ labels=hierarchial_cluster.fit_predict(data)
 plt.scatter(x,y,c=labels)
 plt.show()"""
 
-#logistic regression (multinomial classification) #used sigmoid function
+"""#logistic regression (multinomial classification) #used sigmoid function
 from sklearn import linear_model
 
 #X represents the size of a tumor in centimeters.
-X = np.array([3.78, 2.44, 2.09, 0.14, 1.72, 1.65, 4.92, 4.37, 4.96, 4.52, 3.69, 5.88]).reshape(-1,1)
-#note: X has to be reshaped into a column from a row for the LogisticRegression() function to work.
-
-#y represents whether or not the tumor is cancerous (0 for "No", 1 for "Yes").
+X= np.array([3.78, 2.44, 2.09, 0.14, 1.72, 1.65, 4.92, 4.37, 4.96, 4.52, 3.69, 5.88])
+df = pd.DataFrame(X, columns=["TumorSize(cm)"])
 y = np.array([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
 
-#RESHAPE BASICS. -1 means auto configuring the value. here it's auto finding no of rows and the no of columns is 1.
-#in 3D reshape, it follows the format (no of 2d array boxes, 2d_row, 2d_column)
+# Add y to the DataFrame
+df['Is_Cancerous'] = y
+
+#finally
+features=["TumorSize(cm)"]
+target=["Is_Cancerous"]
+X=df[features]
+y=df[target]
 
 logistic_reg=linear_model.LogisticRegression()
 logistic_reg.fit(X,y)
 
 #prediction test
-predicted=logistic_reg.predict(np.array([3.46]).reshape(-1,1)) #predict if tumor is cancerous where the size is 3.46mm:
-#predicted=logistic_reg.predict([[3.46]]) works too
+#predicted=logistic_reg.predict(np.array([3.46]).reshape(-1,1)) #predict if tumor is cancerous where the size is 3.46mm:
+predicted=logistic_reg.predict([[3.46]]) #better for me
 #in sklearn, the .predict() expects a 2D array mostly.
 
 print(predicted) #We have predicted that a tumor with a size of 3.46mm will not be cancerous.
@@ -254,7 +258,7 @@ log_odds = logistic_reg.coef_ #this is the weight (w).
 #it represents how strongly X influences y probability.
 
 odds = np.exp(log_odds) #np.exp(log_odds)= e^(log_odds), so odds= p / (1-p)
-print(odds) # [4.03541657], it means if the size of a tumor increases by 1mm the odds of it being a cancerous tumor increases by 4x.
+print(odds,"\n") # [4.03541657], it means if the size of a tumor increases by 1mm the odds of it being a cancerous tumor increases by 4x.
 
 #probability, inside maths of logr.predict()
 def logit2prob(logistic_reg, X):
@@ -263,7 +267,13 @@ def logit2prob(logistic_reg, X):
   probability = odds / (1 + odds) #after doing some maths in eq2, we get p like this
   return(probability)
 
-print(logit2prob(logistic_reg, X)) #prints the probabilities of each X being cancerous (y)
-#our .predict returns 0 or 1, but this what's happening underneath, if >0.5, it's 1, if less, it's 0.
+#print(logit2prob(logistic_reg, X)) #prints the probabilities of each X being cancerous (y)
+
+# Add the probability as a new column
+df['Probability'] = logit2prob(logistic_reg, df[['TumorSize(cm)']]) #adds to probabilites to a new column in the df
+
+print(df)
+#our .predict returns 0 or 1, but this what's happening underneath, if >0.5, it's 1, if less, it's 0."""
+
 
 
