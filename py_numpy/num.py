@@ -49,8 +49,8 @@ print(np2.shape)
 n2=np.reshape(4,1,-1) #-1 means it'll auto configure the value for you
 print(n2)
 
-# remember, in 3d reshape, it follows the format (no of array box, 2d_x, 2d_y), or (n_boxes, rows, columns)
-# n_boxes*row*column must be equal to the no of elements.
+#RESHAPE BASICS. -1 means auto configuring the value. here it's auto finding no of rows and the no of columns is 1.
+#in 3D reshape, it follows the format (no of 2d array boxes, 2d_row, 2d_column)
 
 n1=np2.reshape(-1)
 print(n1)"""
