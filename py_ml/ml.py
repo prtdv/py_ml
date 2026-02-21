@@ -275,5 +275,41 @@ df['Probability'] = logit2prob(logistic_reg, df[['TumorSize(cm)']]) #adds to pro
 print(df)
 #our .predict returns 0 or 1, but this what's happening underneath, if >0.5, it's 1, if less, it's 0."""
 
+#grid search (picking out the best parameters for our model, through all values available)
 
+#in sklearn there's a parameter in every model, called C, this is the inverse of regularization strength. C=1/λ
 
+#trying default parameters
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
+
+iris=datasets.load_iris()
+
+# print(iris.feature_names)
+# print(iris.data[:5]) 
+
+# clean way
+# df = pd.DataFrame(iris.data, columns=iris.feature_names)
+# print(df.head())
+
+#sklearn toy dataset magic
+X=iris['data'] # loads all independent vals into a numpy array automatically
+y=iris['target'] #loads the dependent val in a numpy array.
+
+logit=LogisticRegression(max_iter=1000) #each model has certain parameters, changing these will change accuracy. we use grid search to find the best parameter combination out of options we found.
+ #default C=1
+print(logit.fit(X,y))
+print(logit.score(X,y)) #accuracy, when default C=1, score=0.9733333333333334
+
+#now with better searched parameters
+C = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] #searching for parameters like this example will take domain knowledge and practise.
+#here we're only searching for the C parameter as example. 
+
+scores=[]
+
+for i in C: #i is the parameter interator
+      logit.set_params(C=i)
+      logit.fit(X,y)
+      scores.append(logit.score(X,y))
+
+print(scores)
