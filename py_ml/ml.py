@@ -275,7 +275,7 @@ df['Probability'] = logit2prob(logistic_reg, df[['TumorSize(cm)']]) #adds to pro
 print(df)
 #our .predict returns 0 or 1, but this what's happening underneath, if >0.5, it's 1, if less, it's 0."""
 
-#grid search (picking out the best parameters for our model, through all values available)
+"""#grid search (picking out the best parameters for our model, through all values available) n
 
 #in sklearn there's a parameter in every model, called C, this is the inverse of regularization strength. C=1/λ
 
@@ -312,4 +312,44 @@ for i in C: #i is the parameter interator
       logit.fit(X,y)
       scores.append(logit.score(X,y))
 
-print(scores)
+print(scores) #accuracy increased till C=1.75 and not more.
+#note, beware of overfitting, combine w cross validation (later)"""
+
+"""#k means (unsupervised clustering method) #clustering into k clusters
+
+#working: assign each data point random into of the k clusters, then calculate the centroid of each cluster, reassign each point to the cluster w the closest centroid. repeat till no reassignment of clusters is happening.
+#we use elbow method to find the optimal k. it is the plot of Number of clusters (k)  vs  Inertia
+#elbow method uses intertia = sum of squared distances of points to their cluster centroid.
+#about elbow method, https://chatgpt.com/c/699acf0c-87d8-8324-be76-a8b23546cb70
+
+from sklearn.cluster import KMeans
+
+x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
+y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+
+data=list(zip(x,y))
+inertias=[] #intertia = sum of squared distances of points to their cluster centroid.
+
+for i in range(1,len(y)+1): #must have atleast 1 cluster
+    kmeans=KMeans(n_clusters=i)
+    kmeans.fit(data) #in unsupervised learning, we pass it as zipped x and ys, as there are no labels (recheck hierarchial clustering)
+    inertias.append(kmeans.inertia_)
+
+#in elbow method, we just take the k with maxm differnce in graph. more k obv leads to less interia, but may overfit.
+plt.subplot(1,2,1)
+plt.plot(range(1,len(x)+1),inertias, "-o")
+plt.title("Elbow Method")
+plt.xlabel("No. of clusters")
+plt.ylabel("Inertia")
+#plt.show() #this shows that after 2, it leads to slow lesser diff in intertias.
+
+k=2 #final
+
+kmeans=KMeans(n_clusters=k)
+kmeans.fit(data)
+
+plt.subplot(1,2,2)
+plt.scatter(x,y,c=kmeans.labels_)
+plt.title("final clustering using kmeans")
+plt.show()"""
+
