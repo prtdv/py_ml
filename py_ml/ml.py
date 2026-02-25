@@ -473,3 +473,41 @@ sample_encoded = ct.transform(sample)
 
 predictedCO2 = regr.predict(sample_encoded)
 print(predictedCO2)"""
+
+"""#cross validation (mostly k fold)
+
+from sklearn import datasets
+X, y = datasets.load_iris(return_X_y=True) #return_X_y actually returns X and y for me to use.
+
+#K-Fold
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import KFold, cross_val_score
+
+clf=DecisionTreeClassifier(random_state=42) #random_state=any int removed dtree randomness.
+
+k_folds=KFold(n_splits=5)
+scores = cross_val_score(clf, X, y, cv = k_folds)
+
+print("Cross Validation Scores: ", scores)
+print("Average CV Score", scores.mean())
+print("Number of CV Scores used in Average: ", len(scores))
+
+
+#Stratified K-Fold (when datasets are unbalanced)
+#better used in classification models. here we account this imbalance. meaning that both sets will have an equal proportion of all classes.
+
+from sklearn import datasets
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+
+X, y = datasets.load_iris(return_X_y=True)
+
+clf = DecisionTreeClassifier(random_state=42)
+
+sk_folds = StratifiedKFold(n_splits = 5)
+
+scores = cross_val_score(clf, X, y, cv = sk_folds)
+
+print("Cross Validation Scores: ", scores)
+print("Average CV Score: ", scores.mean())
+print("Number of CV Scores used in Average: ", len(scores))"""
