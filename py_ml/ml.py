@@ -353,7 +353,7 @@ plt.scatter(x,y,c=kmeans.labels_)
 plt.title("final clustering using kmeans")
 plt.show()"""
 
-"""#knn (k nearest neighbours)
+"""#knn-classifier (k nearest neighbours) c
 
 from sklearn.neighbors import KNeighborsClassifier
 #works on the principle that observations nearest to a data points are similar, so can be used for missing value imputation or classification.
@@ -384,7 +384,7 @@ knn.fit(X,y)
 
 new_x1 = 8
 new_x2 = 21
-new_point = [(new_x1, new_x2)]
+new_point = [[new_x1, new_x2]]
 
 prediction = knn.predict(new_point)
 print(prediction)
@@ -394,3 +394,82 @@ plt.scatter(x1 + [new_x1], x2 + [new_x2], c=classes + [prediction[0]])
 plt.text(x=new_x1-1.7, y=new_x2-0.7, s=f"new point, class: {prediction[0]}")
 plt.show()
 """
+
+"""#knn regressor
+from sklearn.neighbors import KNeighborsRegressor # Switched for prediction
+
+# 1. Using more descriptive continuous target values
+x1 = [4, 5, 10, 4, 3, 11, 14, 8, 10, 12]
+x2 = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+targets = [10.5, 12.0, 25.5, 9.8, 8.5, 28.0, 30.2, 15.0, 22.1, 24.5]
+
+# Defining DF (Your "insane" way is actually quite standard for small sets!)
+df = pd.DataFrame({
+    "in1": x1,
+    "in2": x2,
+    "target": targets
+})
+
+# 2. Plotting original data
+plt.subplot(1, 2, 1)
+plt.scatter(df["in1"], df["in2"], c=df["target"], cmap='viridis')
+plt.title("Training Data Distribution")
+
+# 3. Features and Target Selection
+X = df[["in1", "in2"]] # Best Practice: Pass as a list of strings
+y = df["target"]       # For Regression, y is usually a Series, not a DF
+
+# 4. Model Setup (KNeighborsRegressor for non-binary prediction)
+# Best Practice: Use odd numbers for k to avoid ties in classification, 
+# though less critical in regression.
+knn = KNeighborsRegressor(n_neighbors=3) 
+knn.fit(X, y)
+
+# 5. Prediction
+new_point = pd.DataFrame([[8, 21]], columns=["in1", "in2"]) # Best Practice: Match feature names
+prediction = knn.predict(new_point)
+print(f"Predicted Value: {prediction[0]:.2f}")
+
+# 6. Plotting Result
+plt.subplot(1, 2, 2)
+plt.scatter(df["in1"], df["in2"], c=df["target"], cmap='viridis', alpha=0.5)
+plt.scatter(8, 21, c='red', marker='x', s=100) # Highlight the new point
+plt.text(6.3, 20, f"Pred: {prediction[0]:.2f}", color="red", fontweight="bold")
+plt.title(f"Prediction (k=3)")
+plt.tight_layout() # Best Practice: Prevents labels from overlapping
+plt.show()"""
+
+"""#categorical data
+#models cant process strings, this teaches us how handle it.
+
+#one hot encoding
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LinearRegression
+
+# 1. Setup Data
+cars = pd.read_csv("data.csv") #earlier we only used numeric features, but using the string features too can help better our model.
+X = cars[['Weight', 'Volume', 'Car']] # 'Car' is still a string here
+y = cars['CO2']
+
+# 2. Define the Transformer
+# This says: "Take the 'Car' column, apply OneHotEncoder, and leave the others alone"
+ct = ColumnTransformer(
+    transformers=[('encoder', OneHotEncoder(), ['Car'])], 
+    remainder='passthrough'
+)
+
+# 3. Transform the data and Train
+X_encoded = ct.fit_transform(X)
+regr = LinearRegression()
+regr.fit(X_encoded, y)
+
+# 4. PREDICTING WITH STRINGS (The part you want)
+# You create a mini-dataframe with the actual string "VW"
+sample = pd.DataFrame({'Weight': [2300], 'Volume': [1300], 'Car': ['VW']})
+
+# The 'ct' object remembers that "VW" belongs in the 18th slot (or wherever it is)
+sample_encoded = ct.transform(sample) 
+
+predictedCO2 = regr.predict(sample_encoded)
+print(predictedCO2)"""
