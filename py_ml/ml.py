@@ -353,7 +353,7 @@ plt.scatter(x,y,c=kmeans.labels_)
 plt.title("final clustering using kmeans")
 plt.show()"""
 
-#knn (k nearest neighbours)
+"""#knn (k nearest neighbours)
 
 from sklearn.neighbors import KNeighborsClassifier
 #works on the principle that observations nearest to a data points are similar, so can be used for missing value imputation or classification.
@@ -378,7 +378,7 @@ target=["class"]
 X=df[features]
 y=df[target]
 
-knn=KNeighborsClassifier(n_neighbors=5) #here k
+knn=KNeighborsClassifier(n_neighbors=5) #change to 1 for a diff result. remember, more k is better but can overfit.
 
 knn.fit(X,y)
 
@@ -393,3 +393,4 @@ plt.subplot(1,2,2)
 plt.scatter(x1 + [new_x1], x2 + [new_x2], c=classes + [prediction[0]])
 plt.text(x=new_x1-1.7, y=new_x2-0.7, s=f"new point, class: {prediction[0]}")
 plt.show()
+"""
